@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Segnala Rogo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,300;0,400;0,600;0,700;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+<link rel="stylesheet" href="css/app.css">
+<link rel="shortcut icon" href="img/favicon.ico"/>
+<link rel="icon" href="img/favicon.png" type="image/png"/>
+<script src="js/theme.js"></script>
+</head>
+<body class="page-info">
+<!--
+  BOZZA DA COMPLETARE. Prima di usare il sito in pubblico:
+  1. sostituisci i segnaposto tra [parentesi quadre] (titolare, contatti, tempi di conservazione);
+  2. fai verificare il testo da chi può farlo (consulente privacy o ente di riferimento).
+  Il testo deriva dall'informativa di SegnalaOra (OpenDataSicilia, CC BY 4.0) ed è stato adattato.
+-->
+
+<header>
+  <div class="logo-mark"><i class="fa-solid fa-shield-halved"></i></div>
+  <div>
+    <h1>Segnala Rogo</h1>
+    <p>Privacy Policy</p>
+  </div>
+  <div class="header-actions">
+    <button class="btn-theme" id="themeToggle" type="button" onclick="toggleTheme()" title="Tema">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <section class="info-section">
+    <p style="font-size:0.8rem;color:var(--ink);opacity:0.6">Ultimo aggiornamento: [data]</p>
+    <p>
+      La presente informativa descrive come vengono trattati i dati personali di chi utilizza
+      <strong>Segnala Rogo</strong>, applicazione web per la segnalazione di incendi e roghi dolosi,
+      in conformità al <strong>Regolamento UE 2016/679 (GDPR)</strong> e al
+      <strong>D.Lgs. 196/2003 (Codice Privacy)</strong> come modificato dal D.Lgs. 101/2018.
+    </p>
+  </section>
+
+  <!-- 1. TITOLARE -->
+  <section class="info-section">
+    <h2><i class="fa-solid fa-building"></i> 1. Titolare del trattamento</h2>
+    <p>
+      Titolare del trattamento: <strong>[Nome e cognome / denominazione del titolare]</strong><br>
+      Contatto per l'esercizio dei diritti: <strong>[indirizzo email o PEC]</strong>
+    </p>
+    <p>
+      Segnala Rogo è software open source derivato da
+      <a href="https://github.com/gbvitrano/Segnalazioni" target="_blank" rel="noopener">SegnalaOra</a>
+      di OpenDataSicilia, rilasciato con licenza CC BY 4.0. Gli autori del progetto originale non gestiscono
+      questa istanza e non hanno accesso ai dati raccolti da questo sito.
+    </p>
+  </section>
+
+  <!-- 2. DATI RACCOLTI -->
+  <section class="info-section">
+    <h2><i class="fa-solid fa-database"></i> 2. Dati personali raccolti</h2>
+    <p>Tramite il modulo di segnalazione vengono raccolti i seguenti dati:</p>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:0.88rem;margin-top:0.75rem">
+        <thead>
+          <tr style="background:var(--amber);color:#fff">
+            <th style="padding:0.5rem 0.75rem;text-align:left;border-radius:8px 0 0 0">Dato</th>
+            <th style="padding:0.5rem 0.75rem;text-align:left">Finalità</th>
+            <th style="padding:0.5rem 0.75rem;text-align:left;border-radius:0 8px 0 0">Base giuridica</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid rgba(26,18,8,0.08)">
+            <td style="padding:0.5rem 0.75rem"><strong>Nome o nickname</strong></td>
+            <td style="padding:0.5rem 0.75rem">Identificazione del segnalante per la comunicazione con i destinatari della segnalazione</td>
+            <td style="padding:0.5rem 0.75rem">Consenso (Art. 6.1.a GDPR)</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(26,18,8,0.08)">
+            <td style="padding:0.5rem 0.75rem"><strong>Indirizzo email</strong></td>
+            <td style="padding:0.5rem 0.75rem">Invio della conferma di ricezione e contatto sulla segnalazione</td>
+            <td style="padding:0.5rem 0.75rem">Consenso (Art. 6.1.a GDPR)</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(26,18,8,0.08)">
+            <td style="padding:0.5rem 0.75rem"><strong>Posizione geografica</strong><br><small>(coordinate)</small></td>
+            <td style="padding:0.5rem 0.75rem">Localizzazione del rogo sulla mappa pubblica</td>
+            <td style="padding:0.5rem 0.75rem">Consenso (Art. 6.1.a GDPR)</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(26,18,8,0.08)">
+            <td style="padding:0.5rem 0.75rem"><strong>Fotografie</strong></td>
+            <td style="padding:0.5rem 0.75rem">Documentazione visiva del rogo; i metadati EXIF servono a ricavare le coordinate</td>
+            <td style="padding:0.5rem 0.75rem">Consenso (Art. 6.1.a GDPR)</td>
+          </tr>
+          <tr>
+            <td style="padding:0.5rem 0.75rem"><strong>Descrizione testuale</strong></td>
+            <td style="padding:0.5rem 0.75rem">Dettaglio dell'evento segnalato</td>
+            <td style="padding:0.5rem 0.75rem">Consenso (Art. 6.1.a GDPR)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:0.75rem">
+      <strong>Nota sulle fotografie:</strong> le immagini vengono ridimensionate nel browser prima dell'invio.
+      I dati EXIF sono usati solo per ricavare le coordinate nel tuo browser. Evita di fotografare persone
+      riconoscibili e di scrivere nella descrizione dati personali di terzi.
+    </p>
+  </section>
+
+  <!-- 3. DOVE SONO ARCHIVIATI -->
+  <section class="info-section">
+    <h2><i class="fa-solid fa-cloud"></i> 3. Dove sono archiviati i dati</h2>
+    <p>I dati inseriti nel modulo vengono trasmessi e archiviati nei seguenti sistemi:</p>
+    <ul style="margin:0.5rem 0 0 1.25rem;line-height:1.8">
+      <li>
+        <strong>Google Sheets e Google Apps Script</strong> (Google LLC, USA) — foglio di calcolo gestito dal titolare e
+        servizio che riceve i dati e invia le email.
+        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy Google</a>
+      </li>
+      <li>
+        <strong>GitHub</strong> (Microsoft Corp., USA) — hosting del sito e archivio delle fotografie allegate.
+        <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">Privacy Policy GitHub</a>
+      </li>
+    </ul>
+    <p style="margin-top:0.75rem">
+      Le email di notifica sono inviate dall'account Google del titolare ai destinatari indicati
+      nella configurazione del sito: [elenco dei destinatari].
+    </p>
+  </section>
+
+  <!-- 4. DATI PUBBLICI SULLA MAPPA -->
+  <section class="info-section">
+    <h2><i class="fa-solid fa-map-location-dot"></i> 4. Dati visibili pubblicamente</h2>
+    <p>
+      Le seguenti informazioni relative a ogni segnalazione sono visibili a chiunque sulla mappa di
+      <strong>Segnala Rogo</strong>:
+    </p>
+    <ul style="margin:0.5rem 0 0 1.25rem;line-height:1.8">
+      <li>Descrizione dell'evento e livello di urgenza</li>
+      <li>Indirizzo approssimativo e coordinate geografiche</li>
+      <li>Data e ora della segnalazione</li>
+      <li>Fotografie allegate</li>
+      <li>Stato della segnalazione (Nuova / In lavorazione / Risolta)</li>
+    </ul>
+    <p style="margin-top:0.75rem">
+      <strong>Non vengono resi pubblici:</strong> nome o nickname, indirizzo email e codice di risoluzione del segnalante.
+    </p>
+  </section>
+
+  <!-- 5. CONSERVAZIONE -->
+  <section class="info-section">
+    <h2><i class="fa-solid fa-clock-rotate-left"></i> 5. Periodo di conservazione</h2>
+    <p>
+      I dati sono conservati per [indicare il periodo, ad esempio: il tempo necessario alla gestione della segnalazione
+      e comunque non oltre ... mesi/anni] e poi cancellati o resi anonimi.
+    </p>
+  </section>
+
+  <!-- 6. DIRITTI DELL'INTERESSATO -->
+  <section class="info-section">
+    <h2><i class="fa-solid fa-scale-balanced"></i> 6. Diritti dell'interessato</h2>
+    <p>Ai sensi degli artt. 15–22 GDPR, l'utente ha il diritto di:</p>
+    <ul style="margin:0.5rem 0 0 1.25rem;line-height:1.8">
+      <li><strong>Accesso</strong> — ottenere conferma che siano trattati dati che lo riguardano e una copia degli stessi</li>
+      <li><strong>Rettifica</strong> — ottenere la correzione di dati inesatti o incompleti</li>
+      <li><strong>Cancellazione</strong> — ottenere la cancellazione dei propri dati</li>
+      <li><strong>Limitazione</strong> — ottenere la limitazione del trattamento in determinati casi</li>
+      <li><strong>Portabilità</strong> — ricevere i propri dati in formato strutturato e leggibile da macchina</li>
+      <li><strong>Opposizione</strong> — opporsi al trattamento in qualsiasi momento</li>
+      <li><strong>Revoca del consenso</strong> — revocare il consenso prestato in qualsiasi momento</li>
+    </ul>
+    <p style="margin-top:0.75rem">
+      Per esercitare i propri diritti l'utente può scrivere al titolare all'indirizzo indicato nella sezione 1,
+      indicando l'ID della segnalazione.
+    </p>
+    <p>
+      È inoltre possibile proporre reclamo al <strong>Garante per la protezione dei dati personali</strong>
+      (<a href="https://www.garanteprivacy.it" target="_blank" rel="noopener">www.garanteprivacy.it</a>).
+    </p>
+  </section>
+
+  <!-- 7. COOKIE E SERVIZI DI TERZE PARTI -->
+  <section class="info-section">
+    <h2><i class="fa-solid fa-cookie-bite"></i> 7. Cookie, archiviazione locale e servizi di terze parti</h2>
+
+    <h3 style="margin:1rem 0 0.5rem;font-size:1rem">Cookie e archiviazione locale</h3>
+    <p>
+      Segnala Rogo non usa cookie di profilazione né strumenti di analisi del traffico. Il sito salva
+      nel browser un solo dato tecnico:
+    </p>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:0.85rem;margin-top:0.5rem">
+        <thead>
+          <tr style="background:var(--sage);color:#fff">
+            <th style="padding:0.5rem 0.75rem;text-align:left;border-radius:8px 0 0 0">Nome</th>
+            <th style="padding:0.5rem 0.75rem;text-align:left">Tipo</th>
+            <th style="padding:0.5rem 0.75rem;text-align:left">Scopo</th>
+            <th style="padding:0.5rem 0.75rem;text-align:left;border-radius:0 8px 0 0">Durata</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:0.5rem 0.75rem"><code>segnalarogo-theme</code></td>
+            <td style="padding:0.5rem 0.75rem">localStorage</td>
+            <td style="padding:0.5rem 0.75rem">Memorizza la preferenza del tema chiaro/scuro</td>
+            <td style="padding:0.5rem 0.75rem">Fino alla cancellazione manuale</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin:1.25rem 0 0.5rem;font-size:1rem">Servizi di terze parti</h3>
+    <p>
+      Per funzionare, la pagina carica contenuti da servizi esterni, che ricevono l'indirizzo IP del dispositivo:
+    </p>
+    <ul style="margin:0.5rem 0 0 1.25rem;line-height:1.8">
+      <li><strong>OpenStreetMap</strong> (tessere della mappa e ricerca dell'indirizzo a partire dalle coordinate: queste ultime vengono inviate al servizio Nominatim)</li>
+      <li><strong>CARTO</strong> (mappa in tema scuro) ed <strong>Esri</strong> (vista satellitare), solo se selezionati</li>
+      <li><strong>Google Fonts</strong> (caratteri tipografici)</li>
+      <li><strong>unpkg, jsDelivr e cdnjs</strong> (librerie JavaScript e icone)</li>
+    </ul>
+    <p style="margin-top:0.75rem">
+      Se condividi la segnalazione sui social, i dati del post sono inviati al servizio scelto
+      (X, WhatsApp, Facebook, Telegram, Bluesky) secondo le sue condizioni.
+    </p>
+  </section>
+
+  <!-- 8. MINORI -->
+  <section class="info-section">
+    <h2><i class="fa-solid fa-child"></i> 8. Minori</h2>
+    <p>
+      Segnala Rogo non è destinato a minori di 16 anni. Non raccogliamo consapevolmente dati
+      personali di minori. Se sei un genitore o tutore e ritieni che tuo figlio abbia fornito
+      dati personali, contatta il titolare per la cancellazione.
+    </p>
+  </section>
+
+  <!-- 9. MODIFICHE -->
+  <section class="info-section">
+    <h2><i class="fa-solid fa-pen-to-square"></i> 9. Modifiche alla presente informativa</h2>
+    <p>
+      La presente informativa può essere aggiornata. Le modifiche sostanziali saranno comunicate
+      con un avviso nella pagina principale del sito.
+    </p>
+  </section>
+
+  <!-- LINK -->
+  <section class="info-section info-section--links">
+    <div class="info-links">
+      <a href="index.html" class="info-link-card">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>Torna all'app</span>
+      </a>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

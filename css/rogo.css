@@ -1,0 +1,344 @@
+/* ═══════════════════════════════════════════════════════
+   Segnala Rogo — stili aggiuntivi della pagina unica
+   Va caricato DOPO css/app.css (che fornisce variabili e stile del form).
+   Contiene: avviso emergenza, mappa con roghi segnalati, popup,
+   lightbox, modal di risoluzione, credits.
+   Derivato da SegnalaOra (CC BY 4.0).
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Avviso emergenza ── */
+body.page-form .emergency-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: #fff1ee;
+  border: 1.5px solid var(--rust);
+  border-radius: 12px;
+  padding: 0.85rem 1.1rem;
+  margin-bottom: 1rem;
+  color: #6b1f14;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+body.page-form .emergency-banner > i { color: var(--rust); font-size: 1.15rem; margin-top: 0.1rem; flex-shrink: 0; }
+body.page-form .emergency-banner a { color: var(--rust); font-weight: 700; text-decoration: none; white-space: nowrap; }
+body.page-form .emergency-banner a:hover { text-decoration: underline; }
+
+/* ── Contatore segnalazioni sopra la mappa ── */
+body.page-form .map-count {
+  padding: 0.7rem 1.2rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink);
+  border-bottom: 1px solid rgba(26,18,8,0.06);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+body.page-form .map-count i { color: var(--rust); }
+
+/* ── Mappa unica ── */
+body.page-form .map-wrap { position: relative; margin-bottom: 0.6rem; }
+body.page-form .map-wrap #map { height: 440px; margin-bottom: 0; z-index: 1; }
+@media (max-width: 640px) {
+  body.page-form .map-wrap #map { height: 360px; }
+}
+
+body.page-form .loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(245,240,232,0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  gap: 1rem;
+  border-radius: 10px;
+}
+body.page-form .loading-overlay p { font-size: 0.85rem; color: #8a7f70; }
+
+body.page-form .demo-notice {
+  position: absolute;
+  top: 0.6rem;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: calc(100% - 7rem);
+  background: #fff8e1;
+  border: 1.5px solid #ffd54f;
+  border-radius: 8px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.72rem;
+  line-height: 1.3;
+  text-align: center;
+  z-index: 400;
+  color: #5a4000;
+  pointer-events: none;
+}
+
+/* ── Legenda sotto la mappa ── */
+body.page-form .map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  font-size: 0.74rem;
+  color: #5a5040;
+  margin-bottom: 0.5rem;
+}
+body.page-form .legend-item { display: inline-flex; align-items: center; gap: 0.35rem; }
+body.page-form .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+body.page-form .legend-dot--new { background: #2a81cb; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); }
+
+body.page-form .map-hint {
+  font-size: 0.76rem;
+  color: #8a7f70;
+  line-height: 1.45;
+  margin-bottom: 0.9rem;
+}
+body.page-form .map-hint i { color: var(--amber); margin-right: 0.25rem; }
+
+/* ── Controlli sulla mappa ── */
+body.page-form .map-home-btn {
+  width: 30px; height: 30px;
+  background: white;
+  border: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.88rem;
+  color: #555;
+  border-radius: 2px;
+  padding: 0;
+}
+body.page-form .map-home-btn:hover { background: #f8f4ef; color: var(--amber); }
+
+body.page-form .map-layer-toggle {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: transparent;
+  box-shadow: none;
+}
+body.page-form .mlt-btns {
+  display: flex;
+  gap: 2px;
+  background: white;
+  border-radius: 10px;
+  padding: 3px;
+  box-shadow: 0 2px 14px rgba(26,18,8,0.18);
+}
+body.page-form .mlt-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.7rem;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  background: transparent;
+  color: #8a7f70;
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: all 0.18s;
+  white-space: nowrap;
+  line-height: 1;
+}
+body.page-form .mlt-btn:not(.active):hover { background: rgba(26,18,8,0.06); color: var(--ink); }
+body.page-form .mlt-btn.active {
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: 0 1px 4px rgba(26,18,8,0.2);
+}
+
+/* ── Popup delle segnalazioni ── */
+body.page-form .leaflet-popup-content {
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 0.85rem;
+  min-width: 220px;
+  max-width: 280px;
+}
+body.page-form .popup-cat {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+body.page-form .popup-cat i { color: var(--rust); }
+body.page-form .popup-row {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.2rem;
+  font-size: 0.78rem;
+  color: #5a5040;
+  align-items: flex-start;
+}
+body.page-form .popup-row span:first-child { flex-shrink: 0; }
+body.page-form .popup-descr {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #eee;
+  font-size: 0.78rem;
+  color: #3a3020;
+  font-style: italic;
+  line-height: 1.4;
+}
+body.page-form .popup-img-thumb {
+  width: 100%;
+  border-radius: 6px;
+  max-height: 220px;
+  object-fit: contain;
+  background: #f0ece3;
+  cursor: zoom-in;
+  margin-top: 0.5rem;
+  display: block;
+}
+
+body.page-form .stato-badge {
+  display: inline-block;
+  font-size: 0.62rem;
+  font-weight: 600;
+  padding: 0.1rem 0.45rem;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+body.page-form .stato-nuova       { background: rgba(212,130,10,0.15); color: #b8700a; }
+body.page-form .stato-lavorazione { background: rgba(26,18,200,0.1);   color: #1a12c8; }
+body.page-form .stato-risolta     { background: rgba(61,90,71,0.15);   color: var(--sage); }
+body.page-form .stato-chiusa      { background: rgba(26,18,8,0.08);    color: #8a7f70; }
+
+/* ── Lightbox ── */
+body.page-form .lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.88);
+  z-index: 20000;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
+body.page-form .lightbox.open { display: flex; }
+body.page-form .lightbox img {
+  max-width: 92vw;
+  max-height: 92vh;
+  width: auto; height: auto;
+  border-radius: 8px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.7);
+  object-fit: contain;
+  cursor: default;
+}
+body.page-form .lightbox-close {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: #fff;
+  font-size: 1.4rem;
+  width: 2.4rem; height: 2.4rem;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1;
+}
+body.page-form .lightbox-close:hover { background: rgba(255,255,255,0.3); }
+
+/* ── Modal di risoluzione (sopra l'header sticky) ── */
+body.page-form .info-overlay { z-index: 15000; }
+body.page-form .resolve-id-box {
+  display: block;
+  width: 100%;
+  background: var(--mist);
+  border: 1.5px solid rgba(26,18,8,0.15);
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  font-family: monospace;
+  font-size: 0.88rem;
+  letter-spacing: 0.03em;
+  color: var(--ink);
+  margin: 0.7rem 0 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+body.page-form .resolve-id-box:focus { border-color: var(--sage); }
+body.page-form .resolve-confirm-btn {
+  width: 100%;
+  background: var(--sage);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.92rem;
+  font-family: 'Titillium Web', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+body.page-form .resolve-confirm-btn:hover:not(:disabled) { background: #2d4435; }
+body.page-form .resolve-confirm-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+body.page-form .resolve-result {
+  margin-top: 0.8rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  display: none;
+}
+body.page-form .resolve-result.ok  { display: block; background: #e8f5e9; color: #2e7d32; }
+body.page-form .resolve-result.err { display: block; background: #fdecea; color: #c62828; }
+
+/* ── Consenso privacy, errore di invio, credits ── */
+body.page-form .consent-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin: 0 0 0.8rem;
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.45;
+  cursor: pointer;
+}
+body.page-form .consent-row input[type="checkbox"] { margin-top: 0.2rem; flex-shrink: 0; }
+body.page-form .consent-row a { color: var(--amber); }
+body.page-form .form-section--send .field-error { margin: -0.3rem 0 0.8rem; }
+
+body.page-form .page-credits {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.72rem;
+  line-height: 1.6;
+  color: #8a7f70;
+}
+body.page-form .page-credits a { color: inherit; text-decoration: underline; }
+body.page-form .page-credits a:hover { color: var(--amber); }
+
+/* ── Dark mode ── */
+html.dark body.page-form .emergency-banner { background: #2a1512; border-color: #a8392b; color: #f1c9c3; }
+html.dark body.page-form .emergency-banner a { color: #ff8f80; }
+html.dark body.page-form .map-count { color: rgba(245,240,232,0.85); border-bottom-color: rgba(255,255,255,0.08); }
+html.dark body.page-form .map-hint,
+html.dark body.page-form .page-credits { color: rgba(245,240,232,0.5); }
+html.dark body.page-form .map-legend { color: rgba(245,240,232,0.7); }
+html.dark body.page-form .loading-overlay { background: rgba(15,13,11,0.92); }
+html.dark body.page-form .loading-overlay p { color: rgba(245,240,232,0.45); }
+html.dark body.page-form .demo-notice { background: #3a3000; border-color: #8a7000; color: #ffe99a; }
+html.dark body.page-form .leaflet-popup-content-wrapper {
+  background: #1a1410;
+  color: #f5f0e8;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+html.dark body.page-form .leaflet-popup-tip { background: #1a1410; }
+html.dark body.page-form .leaflet-popup-content { color: #f5f0e8; }
+html.dark body.page-form .popup-row { color: rgba(245,240,232,0.7); }
+html.dark body.page-form .popup-descr { border-top-color: rgba(255,255,255,0.1); color: rgba(245,240,232,0.75); }
+html.dark body.page-form .map-home-btn { background: #1a1410; color: rgba(245,240,232,0.8); }
+html.dark body.page-form .mlt-btns { background: #1a1410; }
+html.dark body.page-form .mlt-btn { color: rgba(245,240,232,0.55); }
+html.dark body.page-form .mlt-btn.active { background: var(--amber); color: #1a1208; }
+html.dark body.page-form .leaflet-control-attribution {
+  background: rgba(26,20,16,0.8) !important;
+  color: rgba(245,240,232,0.45) !important;
+}
+html.dark body.page-form .leaflet-control-attribution a { color: var(--amber) !important; }
+html.dark body.page-form .resolve-id-box { background: #1a1410; border-color: rgba(255,255,255,0.12); color: #f5f0e8; }

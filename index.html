@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Segnala un incendio o un rogo doloso: indica il punto sulla mappa, allega una foto e consulta i roghi già segnalati." />
+<meta name="robots" content="index,follow">
+<meta http-equiv="content-language" content="IT">
+<title>Segnala Rogo — Segnalazione di incendi e roghi dolosi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,300;0,400;0,600;0,700;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/exifr/dist/full.umd.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/rogo.css">
+<link rel="shortcut icon" href="img/favicon.ico"/>
+<link rel="icon" href="img/favicon.png" type="image/png"/>
+<script src="js/theme.js"></script>
+
+<!-- Open Graph -->
+<meta property="og:type"        content="website" />
+<meta property="og:site_name"   content="Segnala Rogo" />
+<meta property="og:title"       content="Segnala Rogo | Segnala un incendio o un rogo doloso" />
+<meta property="og:description" content="Indica il punto sulla mappa, allega una foto e consulta i roghi già segnalati." />
+<meta property="og:locale"      content="it_IT" />
+</head>
+<body class="page-form">
+
+<header>
+  <div class="logo-mark"><i class="fa-solid fa-fire"></i></div>
+  <div>
+    <h1>Segnala Rogo</h1>
+    <p>Segnala un incendio o un rogo doloso</p>
+  </div>
+  <div class="header-actions">
+    <button class="btn-theme" id="themeToggle" type="button" onclick="toggleTheme()" title="Tema">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <!-- EMERGENZA -->
+  <div class="emergency-banner" role="alert">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <p>
+      <strong>Incendio in corso?</strong> Chiama subito il
+      <a href="tel:115">115</a> (Vigili del Fuoco) o il <a href="tel:112">112</a>
+      (Numero Unico Emergenze). Questo modulo documenta l'evento ma <strong>non sostituisce la chiamata di emergenza</strong>.
+    </p>
+  </div>
+
+  <!-- ① MAPPA: roghi già segnalati + posizione della nuova segnalazione -->
+  <section class="form-section form-section--geo">
+    <div class="map-count" id="mapCount"><i class="fa-solid fa-fire"></i> <span id="mapCountText">Caricamento segnalazioni…</span></div>
+    <div class="geo-bar" id="geoStatus">
+      <div class="geo-bar-left">
+        <div class="dot"></div>
+        <span id="geoText">In attesa di posizione…</span>
+      </div>
+      <div class="geo-bar-right">
+        <button class="btn-sm btn-sm--inline" type="button" onclick="getGPS()"><i class="fa-solid fa-location-crosshairs"></i> GPS</button>
+        <button class="btn-sm btn-sm--inline" type="button" onclick="useExifGps()" id="btnExif" style="display:none"><i class="fa-solid fa-camera"></i> EXIF</button>
+      </div>
+    </div>
+    <div class="map-collapsible" id="mapCollapsible">
+      <div class="exif-banner" id="exifBanner" style="display:none">
+        <i class="fa-solid fa-camera"></i> <strong>Posizione estratta dalla foto (EXIF).</strong> Verifica che il segnaposto corrisponda al luogo del rogo. Se non è corretto, trascinalo nella posizione giusta.
+        <button class="exif-banner-btn" type="button" onclick="dismissExifBanner()"><i class="fa-solid fa-location-crosshairs"></i> Usa GPS invece</button>
+      </div>
+      <div class="map-wrap">
+        <div id="map"></div>
+        <div class="loading-overlay" id="loadingOverlay">
+          <div class="spinner"></div>
+          <p>Caricamento segnalazioni…</p>
+        </div>
+      </div>
+      <div class="map-legend" aria-label="Legenda">
+        <span class="legend-item"><span class="legend-dot" style="background:var(--urg-alta)"></span> Alta</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--urg-normale)"></span> Normale</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--urg-bassa)"></span> Bassa</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--sage)"></span> Risolta</span>
+        <span class="legend-item"><span class="legend-dot legend-dot--new"></span> La tua segnalazione</span>
+      </div>
+      <p class="map-hint"><i class="fa-solid fa-hand-pointer"></i> Tocca la mappa o trascina il segnaposto blu per indicare dove si trova il rogo. Tocca un pallino colorato per vedere una segnalazione già inviata.</p>
+      <label for="addressInput">Indirizzo rilevato</label>
+      <input type="text" id="addressInput" placeholder="Via/Strada, località — Comune">
+    </div>
+  </section>
+
+  <!-- ② FOTO -->
+  <section class="form-section">
+    <div class="section-title"><i class="fa-solid fa-camera"></i> Foto del rogo <span class="section-badge" id="photoCount">0 / 4</span></div>
+    <input type="file" id="fileInput" accept="image/*" multiple style="display:none">
+    <div class="photo-grid" id="photoGrid">
+      <div class="photo-add-slot" id="photoAddSlot" onclick="document.getElementById('fileInput').click()">
+        <i class="fa-solid fa-plus"></i>
+        <span>Aggiungi foto</span>
+        <small>JPG · PNG · HEIC · max 1280 px</small>
+      </div>
+    </div>
+    <div class="photo-info" id="photoInfo"></div>
+    <div class="btn-row" style="margin-top:0.8rem">
+      <button class="btn-sm" type="button" onclick="openCamera()"><i class="fa-solid fa-camera"></i> Fotocamera</button>
+      <button class="btn-sm" type="button" onclick="openGallery()"><i class="fa-solid fa-images"></i> Galleria</button>
+    </div>
+    <div class="field-error" id="photoZone-error">⚠️ Almeno una foto è obbligatoria.</div>
+  </section>
+
+  <!-- ③ URGENZA E NOTE -->
+  <section class="form-section">
+    <div class="section-title"><i class="fa-solid fa-pen-to-square"></i> Situazione e note</div>
+
+    <label for="urgenza">Situazione</label>
+    <div class="select-wrap">
+      <select id="urgenza">
+        <option value="Alta">Alta — incendio in corso / pericolo immediato</option>
+        <option value="Normale" selected>Normale — fuoco acceso, sotto controllo</option>
+        <option value="Bassa">Bassa — rogo già spento, restano le tracce</option>
+      </select>
+    </div>
+
+    <label for="descr">Descrizione *</label>
+    <textarea id="descr" placeholder="Es: Fuoco in un terreno incolto vicino alla strada, si vede del fumo denso. Ho notato un'auto allontanarsi…" oninput="clearFieldError('descr')"></textarea>
+    <div class="field-error" id="descr-error">Inserisci una breve descrizione del rogo.</div>
+  </section>
+
+  <!-- ④ MITTENTE -->
+  <section class="form-section">
+    <div class="section-title"><i class="fa-solid fa-user"></i> I tuoi dati</div>
+
+    <label for="nome">Nome o Nickname *</label>
+    <input type="text" id="nome" placeholder="Il tuo nome o nickname" oninput="clearFieldError('nome')" required>
+    <div class="field-error" id="nome-error">Inserisci il tuo nome o nickname.</div>
+
+    <label for="email">Email * <span class="label-note">(ricevi la conferma di invio)</span></label>
+    <input type="email" id="email" placeholder="tua@email.it" required
+      oninput="onEmailInput()"
+      onblur="validateEmailField()">
+    <div class="field-error" id="email-error">Inserisci un indirizzo email valido (es: nome@dominio.it).</div>
+  </section>
+
+  <!-- ⑤ CONDIVIDI -->
+  <section class="form-section">
+    <div class="section-title"><i class="fa-solid fa-share-nodes"></i> Condividi la segnalazione</div>
+    <p class="section-hint">Facoltativo: diffondi la segnalazione sui social per aumentarne la visibilità</p>
+    <div class="social-chips" id="socialChips">
+      <button type="button" class="social-chip" data-platform="twitter"  title="X / Twitter" onclick="toggleSocial('twitter')">
+        <i class="fa-brands fa-x-twitter"></i>
+      </button>
+      <button type="button" class="social-chip" data-platform="whatsapp" title="WhatsApp" onclick="toggleSocial('whatsapp')">
+        <i class="fa-brands fa-whatsapp"></i>
+      </button>
+      <button type="button" class="social-chip" data-platform="facebook" title="Facebook" onclick="toggleSocial('facebook')">
+        <i class="fa-brands fa-facebook-f"></i>
+      </button>
+      <button type="button" class="social-chip" data-platform="telegram" title="Telegram" onclick="toggleSocial('telegram')">
+        <i class="fa-brands fa-telegram"></i>
+      </button>
+      <button type="button" class="social-chip" data-platform="bluesky"  title="Bluesky" onclick="toggleSocial('bluesky')">
+        <i class="fa-brands fa-bluesky"></i>
+      </button>
+    </div>
+    <p class="field-hint" id="socialHint" style="display:none"><i class="fa-solid fa-circle-info"></i> Il post viene generato automaticamente. Una volta aperta l'app, puoi allegare manualmente la foto prima di inviare.</p>
+  </section>
+
+  <!-- HONEYPOT anti-spam — non toccare, deve restare vuoto -->
+  <div style="position:absolute;left:-9999px;top:-9999px;width:0;height:0;overflow:hidden;" aria-hidden="true">
+    <label for="hp_website">Website</label>
+    <input type="text" id="hp_website" name="website" tabindex="-1" autocomplete="off">
+  </div>
+
+  <!-- ⑥ INVIA -->
+  <section class="form-section form-section--send">
+    <label class="consent-row">
+      <input type="checkbox" id="privacyConsent">
+      <span>Ho letto e accetto l'<a href="privacy.html" target="_blank">informativa privacy</a> e acconsento al trattamento dei dati personali ai sensi del GDPR 2016/679.</span>
+    </label>
+    <div class="field-error" id="consent-error">⚠️ Per inviare devi accettare l'informativa privacy.</div>
+    <div class="field-error" id="send-error"></div>
+    <button class="send-btn" id="sendBtn" type="button" onclick="sendReport()">
+      <i class="fa-solid fa-paper-plane"></i> Invia Segnalazione
+    </button>
+  </section>
+
+  <footer class="page-credits">
+    <p>
+      Basato su <a href="https://github.com/gbvitrano/Segnalazioni" target="_blank" rel="noopener">SegnalaOra</a>
+      di OpenDataSicilia e Giovan Battista Vitrano,
+      licenza <a href="https://creativecommons.org/licenses/by/4.0/deed.it" target="_blank" rel="noopener">CC BY 4.0</a>.
+      Modificato: segnalazioni limitate ai roghi, pagina unica.
+      · <a href="privacy.html" target="_blank">Privacy</a>
+    </p>
+  </footer>
+
+</main>
+
+<!-- SUCCESS OVERLAY -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-card">
+    <span class="success-icon"><i class="fa-solid fa-circle-check"></i></span>
+    <h2>Segnalazione inviata!</h2>
+    <p>Il tuo report è stato trasmesso. Riceverai una conferma via email. Conserva l'ID per seguire l'evoluzione.</p>
+    <div style="display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-bottom:1.5rem;">
+      <div class="tag-id" id="ticketId" style="margin-bottom:0">SGN-000000</div>
+      <button id="copyIdBtn" type="button" onclick="copyTicketId()" title="Copia ID"
+        style="background:none;border:1px solid rgba(26,18,8,0.25);border-radius:6px;padding:0.3rem 0.6rem;cursor:pointer;font-size:0.8rem;font-family:'Titillium Web',sans-serif;">
+        <i class="fa-regular fa-copy"></i> Copia
+      </button>
+    </div>
+    <div class="token-row">
+      <span class="token-label"><i class="fa-solid fa-key"></i> Token risoluzione:</span>
+      <span class="token-val" id="resolveToken">—</span>
+      <button id="copyTokenBtn" type="button" onclick="copyToken()" class="copy-btn-small" title="Copia token"><i class="fa-regular fa-copy"></i> Copia</button>
+    </div>
+    <p class="token-hint">Conserva questo codice: serve a chi gestisce le segnalazioni per marcare il rogo come risolto.</p>
+
+    <p id="successDetail" style="margin-bottom:0.5rem;"></p>
+    <div class="channels-sent" id="channelsSent"></div>
+    <div class="copy-reminder" id="copyReminder">
+      <i class="fa-solid fa-lightbulb"></i> Hai copiato il tuo ID segnalazione? Ne avrai bisogno per seguire l'evoluzione.
+      <button class="copy-reminder-close" type="button" onclick="forceClose()">Chiudi comunque</button>
+    </div>
+    <br>
+    <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap;">
+      <button class="btn-next" type="button" onclick="resetAll()" style="margin:0;"><i class="fa-solid fa-plus"></i> Nuova segnalazione</button>
+      <button type="button" onclick="closeSuccess()" style="margin:0;padding:0.75rem 1.5rem;border-radius:12px;border:1.5px solid rgba(26,18,8,0.25);background:transparent;font-family:'Titillium Web',sans-serif;font-size:0.95rem;font-weight:500;cursor:pointer;color:var(--ink);"><i class="fa-solid fa-xmark"></i> Chiudi</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL RISOLUZIONE (si apre con ?risolvi=TOKEN nell'URL) -->
+<div class="info-overlay" id="resolveOverlay" onclick="if(event.target===this)closeResolve()">
+  <div class="info-modal" style="max-width:420px">
+    <button class="info-modal-close" type="button" onclick="closeResolve()" title="Chiudi">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <h2 style="color:var(--sage)"><i class="fa-solid fa-circle-check"></i> Segna come risolta</h2>
+    <p>Incolla il codice di risoluzione ricevuto via email:</p>
+    <input class="resolve-id-box" id="resolveIdDisplay" type="text"
+      placeholder="Es. 550e8400-e29b-41d4-a716-446655440000"
+      autocomplete="off" spellcheck="false"
+      onkeydown="if(event.key==='Enter')confirmResolve()">
+    <p style="font-size:0.82rem;color:#777;margin-bottom:1rem">
+      Questa azione aggiorna lo stato nel sistema. La segnalazione risulterà risolta sulla mappa entro 1–3 minuti.
+    </p>
+    <button class="resolve-confirm-btn" id="resolveConfirmBtn" type="button" onclick="confirmResolve()">
+      <i class="fa-solid fa-circle-check"></i> Conferma risoluzione
+    </button>
+    <div class="resolve-result" id="resolveResult"></div>
+  </div>
+</div>
+
+<!-- LIGHTBOX IMMAGINE -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" type="button" onclick="closeLightbox()" title="Chiudi">&#x2715;</button>
+  <img id="lightboxImg" src="" alt="Immagine segnalazione" onclick="event.stopPropagation()">
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/rogo.js"></script>
+</body>
+</html>
