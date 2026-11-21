@@ -342,3 +342,13 @@ html.dark body.page-form .leaflet-control-attribution {
 }
 html.dark body.page-form .leaflet-control-attribution a { color: var(--amber) !important; }
 html.dark body.page-form .resolve-id-box { background: #1a1410; border-color: rgba(255,255,255,0.12); color: #f5f0e8; }
+
+/* Tessere OSM scurite per il tema scuro */
+.tiles-dark { filter: invert(1) hue-rotate(180deg) brightness(.95) contrast(.9); }
+
+/* Pulsanti di condivisione social nella schermata di conferma */
+body.page-form .share-links { margin: .5rem 0 1rem; display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; }
+body.page-form .share-links .share-title { width: 100%; margin: 0 0 .25rem; font-size: .9rem; }
+body.page-form .share-btn { padding: .5rem 1rem; border-radius: 10px; border: 1.5px solid currentColor; text-decoration: none; font-weight: 600; font-size: .9rem; color: inherit; }
+body.page-form .share-btn:hover { background: rgba(0,0,0,.06); }
+html.dark body.page-form .share-btn:hover { background: rgba(255,255,255,.1); }
