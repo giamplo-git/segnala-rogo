@@ -82,9 +82,11 @@ function initMap() {
     attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     maxZoom: 19
   });
-  osmLayerDark = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, © <a href="https://carto.com/attributions">CARTO</a>',
-    maxZoom: 19
+  // Tema scuro: stesse tessere OSM, scurite via CSS (nessuna chiave API necessaria)
+  osmLayerDark = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    maxZoom: 19,
+    className: 'tiles-dark'
   });
   satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
     attribution: 'Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',
@@ -812,8 +814,9 @@ async function sendReport() {
     ticketId,
   ].filter(Boolean).join('\n');
 
-  // Social: aperti QUI, prima di qualsiasi await, per non farli bloccare come popup
+  // Social: i link vengono mostrati nella schermata di conferma (un clic per piattaforma, nessun popup bloccato)
   const channelsBadges = [];
+  const shareLinks = [];
   if (toEmails.length > 0) {
     _selectedDests.filter(d => d.email).forEach(d => { channelsBadges.push('🏛️ ' + d.nome); });
   }
@@ -839,8 +842,7 @@ async function sendReport() {
     };
     const names = { twitter: 'X/Twitter', whatsapp: 'WhatsApp', facebook: 'Facebook', telegram: 'Telegram', bluesky: 'Bluesky' };
     for (const p of _socialPlatforms) {
-      window.open(urls[p], '_blank', 'noopener');
-      channelsBadges.push('📱 ' + names[p]);
+      shareLinks.push({ name: names[p], url: urls[p] });
     }
   }
 
@@ -912,6 +914,14 @@ async function sendReport() {
 
   const badgesEl = document.getElementById('channelsSent');
   badgesEl.innerHTML = channelsBadges.map(b => `<span class="channel-badge">✓ ${esc(b)}</span>`).join('');
+
+  const shareEl = document.getElementById('shareLinks');
+  if (shareEl) {
+    shareEl.innerHTML = shareLinks.length
+      ? '<p class="share-title">Condividi ora (si apre il social con il testo già pronto):</p>' +
+        shareLinks.map(l => `<a class="share-btn" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.name)}</a>`).join('')
+      : '';
+  }
 
   document.getElementById('successOverlay').classList.add('open');
   window.scrollTo({ top: 0, behavior: 'smooth' });
