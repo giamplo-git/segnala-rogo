@@ -352,3 +352,12 @@ body.page-form .share-links .share-title { width: 100%; margin: 0 0 .25rem; font
 body.page-form .share-btn { padding: .5rem 1rem; border-radius: 10px; border: 1.5px solid currentColor; text-decoration: none; font-weight: 600; font-size: .9rem; color: inherit; }
 body.page-form .share-btn:hover { background: rgba(0,0,0,.06); }
 html.dark body.page-form .share-btn:hover { background: rgba(255,255,255,.1); }
+
+/* Pulsante di invio: colore acceso */
+body.page-form .send-btn,
+html.dark body.page-form .send-btn { background: #e8250f; border-color: #e8250f; color: #fff; }
+body.page-form .send-btn i,
+html.dark body.page-form .send-btn i { color: #fff; }
+body.page-form .send-btn:hover,
+html.dark body.page-form .send-btn:hover { background: #c81d09; border-color: #c81d09; color: #fff; }
+body.page-form .send-btn:hover i { color: #fff; }
