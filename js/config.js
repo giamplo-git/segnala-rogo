@@ -38,9 +38,9 @@ const APP_CONFIG = {
   //    lat/lng/zoom: vista iniziale (imposta il centro della TUA zona).
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   mappa: {
-    lat:          38.1157,
-    lng:          13.3615,
-    zoom:         9,         // zoom iniziale (9 ≈ area provinciale, 14 ≈ quartiere)
+    lat:          36.7167,   // Pachino (SR)
+    lng:          15.0914,
+    zoom:         13,        // zoom iniziale (9 ≈ area provinciale, 14 ≈ quartiere)
     maxZoom:      19,
     fitBoundsPad: 0.15,      // margine attorno ai marker (0 = nessuno, 0.5 = ampio)
     loadTimeout:  12000,     // timeout caricamento CSV in ms

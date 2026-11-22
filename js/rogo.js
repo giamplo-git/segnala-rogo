@@ -314,9 +314,9 @@ function showDemoData() {
     Long: String(c.lng + dLng),
   });
   allReports = [
-    mk(1,  0.012,  0.010, 0, 'Alta',    'Nuova',   'Esempio: fuoco in un terreno incolto, fumo denso.'),
-    mk(2, -0.010,  0.020, 2, 'Normale', 'Nuova',   'Esempio: sterpaglie in fiamme lungo la strada.'),
-    mk(3,  0.004, -0.018, 6, 'Bassa',   'Risolta', 'Esempio: rogo spento, restano le tracce.'),
+    mk(1,  0.006,  0.008, 0, 'Alta',    'Nuova',   'Esempio: fuoco in un terreno incolto, fumo denso.'),
+    mk(2, -0.007,  0.012, 2, 'Normale', 'Nuova',   'Esempio: sterpaglie in fiamme lungo la strada.'),
+    mk(3,  0.003, -0.011, 6, 'Bassa',   'Risolta', 'Esempio: rogo spento, restano le tracce.'),
   ];
 
   const wrap = document.querySelector('.map-wrap');
