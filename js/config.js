@@ -20,9 +20,9 @@ const APP_CONFIG = {
   //    ATTENZIONE: i fogli pubblicati NON devono contenere le colonne
   //    Email_Segnalante, Nome_Segnalante e Token_Risoluzione.
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  appsScriptUrl:    '',
-  sheetsCsvAperte:  '',
-  sheetsCsvRisolte: '',
+  appsScriptUrl:    'https://script.google.com/macros/s/AKfycbwScxCHu-bdvndZRZ6HqTbqzcx8EOphWJGPZxxCBYwIgZg4hfiqpUoDYZ2i6OSFD9_MlQ/exec',
+  sheetsCsvAperte:  'https://docs.google.com/spreadsheets/d/e/2PACX-1vTQNwtS0FdFBMs6bQcqWcghI4pOJgt9wRjqLQEVZWrYrMMm1CtFVga1xIEfXqG53o1rBLypnP6o0dqS/pub?gid=395708333&single=true&output=csv',
+  sheetsCsvRisolte: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTQNwtS0FdFBMs6bQcqWcghI4pOJgt9wRjqLQEVZWrYrMMm1CtFVga1xIEfXqG53o1rBLypnP6o0dqS/pub?gid=1893402851&single=true&output=csv',
 
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   // 2. IDENTITA' APP
@@ -63,7 +63,7 @@ const APP_CONFIG = {
       id:        'rogo',
       nome:      'Segnalazione rogo',
       categoria: 'Incendio / rogo doloso',
-      email:     '',
+      email:     'osservatorioroghi@gmail.com',
       icon:      'fa-solid fa-fire',
     },
   ],
