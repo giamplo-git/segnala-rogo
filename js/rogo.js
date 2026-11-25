@@ -246,7 +246,7 @@ function parseCSV(text) {
     headers.forEach((h, idx) => {
       obj[h.trim().replace(/^﻿/, '')] = (vals[idx] !== undefined ? vals[idx] : '').trim();
     });
-    if (!obj.Lat || isNaN(parseFloat(obj.Lat))) continue;
+    if (!obj.Lat || isNaN(parseCoord(obj.Lat))) continue;
     if (!obj.ID_Segnalazione) {
       obj.ID_Segnalazione = obj.Timestamp_UTC
         ? 'SGN-' + obj.Timestamp_UTC.replace(/\W/g, '')
@@ -387,13 +387,25 @@ function makeMarkerIcon(urgenza, stato) {
   });
 }
 
+// Legge una coordinata anche se il foglio (località Italia) la scrive con la virgola
+// ("36,7167"), con i separatori delle migliaia o come intero ("36716700" = 36.7167).
+function parseCoord(v) {
+  let t = String(v == null ? '' : v).trim().replace(/\s/g, '');
+  if (!t) return NaN;
+  if (t.includes(',') && t.includes('.')) t = t.replace(/\./g, '').replace(',', '.');
+  else if (t.includes(',')) t = t.replace(',', '.');
+  let n = parseFloat(t);
+  if (Math.abs(n) > 1000) n = n / 1e6;
+  return n;
+}
+
 function renderMarkers() {
   reportMarkers.forEach(m => map.removeLayer(m));
   reportMarkers = [];
 
   allReports.forEach(report => {
-    const lat = parseFloat(report.Lat);
-    const lng = parseFloat(report.Long);
+    const lat = parseCoord(report.Lat);
+    const lng = parseCoord(report.Long);
     if (isNaN(lat) || isNaN(lng)) return;
     const m = L.marker([lat, lng], { icon: makeMarkerIcon(report.Urgenza, report.Stato) });
     m.bindPopup(makePopupHTML(report), { maxWidth: 300 });
